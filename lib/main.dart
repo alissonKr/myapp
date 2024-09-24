@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -7,6 +6,8 @@ void main() {
 }
 
 class CalculadoraPrazosApp extends StatelessWidget {
+  const CalculadoraPrazosApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,6 +21,8 @@ class CalculadoraPrazosApp extends StatelessWidget {
 }
 
 class CalculadoraPrazosHomePage extends StatefulWidget {
+  const CalculadoraPrazosHomePage({super.key});
+
   @override
   _CalculadoraPrazosHomePageState createState() =>
       _CalculadoraPrazosHomePageState();
@@ -29,41 +32,60 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
   DateTime selectedDate = DateTime.now();
   String selectedPrazo = '14/28/42';
   List<int> intervals = [14, 28, 42];
-  final List<String> prazos = ['14/28/42', '14/28/42/56', '28/42/56'];
+
+  // Lista completa de prazos fornecidos
+  final List<String> prazos = [
+    '28', '30', '7', '10', '14', '21', '25', '28/56', '20/40', '30/60',
+    '28/42', '15/30', '20/35', '25/50', '25/45', '14/28', '30/35', '14/21', '7/14', '10/20', '28/35', 
+    '21/28', '15/45', '25/35', '7/28', '25/40/55', '25/35/50', '20/40/60', '30/60/90', '28/56/84', 
+    '15/30/45', '25/50/75', '30/45/60', '25/45/65', '20/30/40', '21/35/49', '25/35/45', '28/35/42', 
+    '21/28/35', '14/21/28', '10/20/30', '7/14/21', '14/28/42', '28/42/56', '30/40/50', '30/50/70', 
+    '17/37/57', '28/42/56/70', '20/40/60/80', '15/30/45/60', '30/60/90/120', '21/35/49/63', '20/35/50/65', 
+    '20/30/40/50', '30/40/50/60', '25/40/55/70', '30/45/60/75', '14/28/42/56', '25/35/45/55', '21/42/63/84', 
+    '28/35/42/49', '7/14/21/28', '21/28/35/42', '28/56/84/112', '7/14/21/28', '10/20/30/40', '14/21/28/35', 
+    '28/42/56/70', '15/25/35/45', '20/30/40/50/60', '30/45/60/75/90', '28/42/56/70/84', '25/35/45/55/65', 
+    '15/30/45/60/75', '21/28/35/42/49', '20/40/60/80/100', '7/14/21/28/35', '20/35/50/65/80', '28/35/42/49/56', 
+    '14/28/42/56/70', '10/20/30/40/50', '30/40/50/60/70', '14/21/28/35/42', '25/40/55/70/85', '10/20/30/40/50/60', 
+    '15/25/35/45/55/65', '15/30/45/60/75/90', '25/35/45/55/65/75', '14/28/42/56/70/84', '21/28/35/42/49/56', 
+    '7/14/21/28/35/42', '28/35/42/49/56/63', '14/21/28/35/42/49', '20/40/60/80/100/120', '28/35/42/49/56/63/70', 
+    '7/14/21/28/35/42/49', '14/21/28/35/42/49/56', '15/30/45/60/75/90/15/120', '21/28/35/42/49/56/63/70', 
+    '7/14/21/28/35/42/49/56', '14/21/28/35/42/49/56/63/70', '7/14/21/28/35/42/49/56/63/70', '14/21/28/35/42/'
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.greenAccent,
       appBar: AppBar(
-        title: Text('Calculadora de Prazos de Pagamento'),
+        title: const Text('Calculadora de Prazos de Pagamento'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Selecione a data inicial:',
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             GestureDetector(
               onTap: () => _selectDate(context),
               child: AbsorbPointer(
                 child: TextFormField(
                   decoration: InputDecoration(
                     hintText: DateFormat('dd/MM/yyyy').format(selectedDate),
-                    suffixIcon: Icon(Icons.calendar_today),
+                    suffixIcon: const Icon(Icons.calendar_today),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 16),
+            const Text(
               'Selecione o prazo:',
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             DropdownButton<String>(
               value: selectedPrazo,
               onChanged: (String? newValue) {
@@ -79,17 +101,17 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _calculateDates,
-              child: Text('Calcular Datas de Boletos'),
+              child: const Text('Calcular Datas de Boletos'),
             ),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 16),
+            const Text(
               'Datas dos boletos:',
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             ..._buildBoletosDates(),
           ],
         ),
@@ -104,10 +126,11 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
       });
+    }
   }
 
   void _calculateDates() {
@@ -119,7 +142,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
       DateTime boletoDate = selectedDate.add(Duration(days: interval));
       return Text(
         DateFormat('dd/MM/yyyy').format(boletoDate),
-        style: TextStyle(fontSize: 18),
+        style: const TextStyle(fontSize: 18),
       );
     }).toList();
   }
