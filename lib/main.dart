@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  runApp(const CalculadoraPrazosApp());
+  runApp(CalculadoraPrazosApp());
 }
 
 class CalculadoraPrazosApp extends StatelessWidget {
@@ -15,7 +15,7 @@ class CalculadoraPrazosApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CalculadoraPrazosHomePage(),
+      home: CalculadoraPrazosHomePage(),
     );
   }
 }
@@ -107,7 +107,12 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 8),
-            ..._buildBoletosDates(),
+            Expanded(
+              // Substitui o Column por ListView para evitar overflow
+              child: ListView(
+                children: _buildBoletosDates(),
+              ),
+            ),
           ],
         ),
       ),
@@ -155,6 +160,6 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
               ],
             );
           }).toList()
-        : [const Text('Nenhuma data disponível', style: TextStyle(fontSize: 18))];
+        : [Text('Nenhuma data disponível', style: TextStyle(fontSize: 18))];
   }
 }
