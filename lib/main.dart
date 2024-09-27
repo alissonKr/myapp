@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  runApp(CalculadoraPrazosApp());
+  runApp(const CalculadoraPrazosApp());
 }
 
 class CalculadoraPrazosApp extends StatelessWidget {
@@ -15,7 +15,7 @@ class CalculadoraPrazosApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CalculadoraPrazosHomePage(),
+      home: const CalculadoraPrazosHomePage(),
     );
   }
 }
@@ -55,7 +55,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Colors.blueGrey[50],
       appBar: AppBar(
         title: const Text('Calculadora de Prazos de Pagamento'),
       ),
@@ -91,7 +91,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
               onChanged: (String? newValue) {
                 setState(() {
                   selectedPrazo = newValue!;
-                  intervals = selectedPrazo.split('/').map(int.parse).toList();
+                  intervals = _parseIntervals(selectedPrazo);
                 });
               },
               items: prazos.map<DropdownMenuItem<String>>((String value) {
@@ -101,12 +101,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                 );
               }).toList(),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _calculateDates,
-              child: const Text('Calcular Datas de Boletos'),
-            ),
-            const SizedBox(height: 16),
+            
             const Text(
               'Datas dos boletos:',
               style: TextStyle(fontSize: 18),
@@ -133,17 +128,33 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
     }
   }
 
-  void _calculateDates() {
-    setState(() {});
+  // Função de parseamento com tratamento de erro
+  List<int> _parseIntervals(String prazo) {
+    try {
+      return prazo.split('/').map(int.parse).toList();
+    } catch (e) {
+      // Exibe um erro ou retorna uma lista vazia para evitar falhas
+      print('Erro ao parsear prazos: $e');
+      return [];
+    }
   }
 
+  // Função para construir a lista de datas dos boletos
   List<Widget> _buildBoletosDates() {
-    return intervals.map((interval) {
-      DateTime boletoDate = selectedDate.add(Duration(days: interval));
-      return Text(
-        DateFormat('dd/MM/yyyy').format(boletoDate),
-        style: const TextStyle(fontSize: 18),
-      );
-    }).toList();
+    return intervals.isNotEmpty
+        ? intervals.map((interval) {
+            DateTime boletoDate = selectedDate.add(Duration(days: interval));
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  DateFormat('dd/MM/yyyy').format(boletoDate),
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const Divider(),  // Adiciona uma linha divisória entre as datas
+              ],
+            );
+          }).toList()
+        : [const Text('Nenhuma data disponível', style: TextStyle(fontSize: 18))];
   }
 }
