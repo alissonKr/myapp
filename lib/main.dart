@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  runApp(CalculadoraPrazosApp());
+  runApp(const CalculadoraPrazosApp());
 }
 
 class CalculadoraPrazosApp extends StatelessWidget {
@@ -15,7 +15,7 @@ class CalculadoraPrazosApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CalculadoraPrazosHomePage(),
+      home: const CalculadoraPrazosHomePage(),
     );
   }
 }
@@ -55,7 +55,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[50],
+      backgroundColor: const Color.fromARGB(255, 113, 219, 238),
       appBar: AppBar(
         title: const Text('Calculadora de Prazos de Pagamento'),
       ),
@@ -160,6 +160,6 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
               ],
             );
           }).toList()
-        : [Text('Nenhuma data disponível', style: TextStyle(fontSize: 18))];
+        : [const Text('Nenhuma data disponível', style: TextStyle(fontSize: 18))];
   }
 }
