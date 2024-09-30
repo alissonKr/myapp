@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'  # Substitua pela versão do Flutter que você está usando
       - run: flutter pub get
       - run: flutter build web --release --web-renderer html
       - uses: FirebaseExtended/action-hosting-deploy@v0
