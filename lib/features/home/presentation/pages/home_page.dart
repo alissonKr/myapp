@@ -55,6 +55,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
             ),
             const SizedBox(height: 8),
             Container(
+              width: MediaQuery.of(context).size.width * 0.2,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -63,7 +64,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
@@ -93,6 +94,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
             ),
             const SizedBox(height: 8),
             Container(
+              width: MediaQuery.of(context).size.width * 0.2,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -141,8 +143,9 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 8),
-            Expanded(
+            Flexible(
               child: Container(
+                width: MediaQuery.of(context).size.width * 0.2,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -156,6 +159,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                   ],
                 ),
                 child: ListView(
+                  shrinkWrap: true,
                   children: buildBoletosDates(selectedDate, intervals),
                 ),
               ),
