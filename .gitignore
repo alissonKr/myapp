@@ -16,6 +16,40 @@ migrate_working_dir/
 *.iws
 .idea/
 
+# Ignore arquivos e diretórios de sistema
+Ambiente de Impressão/
+Ambiente de Rede/
+Configurações Locais/
+Cookies/
+Dados de Aplicativos/
+Documents/Meus Vídeos/
+Documents/Minhas Imagens/
+Documents/Minhas Músicas/
+Menu Iniciar/
+Meus Documentos/
+Modelos/
+Recent/
+SendTo/
+Downloads/
+Favorites/
+Links/
+Music/
+OneDrive/
+Pictures/
+Saved Games/
+Searches/
+Videos/
+*.DAT
+*.LOG*
+*.regtrans-ms
+*.ini
+*.tmp
+~$*
+
+# Ignorar tudo fora do repositório atual
+../*
+
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
@@ -41,3 +75,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Ignore o diretório date-calculator
+date-calculator/
+

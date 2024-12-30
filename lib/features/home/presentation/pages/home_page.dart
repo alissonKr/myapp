@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../widgets/date_selector.dart';
 import '../../logic/date_calculator.dart';
 import '../../logic/dropdown_parser.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CalculadoraPrazosHomePage extends StatefulWidget {
   const CalculadoraPrazosHomePage({Key? key}) : super(key: key);
@@ -40,116 +41,50 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 113, 219, 238),
-      appBar: AppBar(
-        title: const Text('Calculadora de Prazos de Pagamento'),
-      ),
-      body: Row(
-        children: [
-          // Primeira coluna
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Selecione a data inicial:',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.blue, // Cor inicial do gradiente
+              Colors.tealAccent, // Cor final do gradiente
+            ],
+          ),
+        ),
+        child: Column(
+          children: [
+            AppBar(
+              title: Text(
+                'Texto com estilo de letra específico',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Anton', // Nome da família de fonte
+                  shadows: [
+                    Shadow(
+                      offset: Offset(2.0, 2.0), // Define a posição da sombra
+                      blurRadius: 3.0, // Define o quão desfocada será a sombra
+                      color: Colors.black.withOpacity(0.5), // Cor da sombra com opacidade
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DateSelector(
-                        selectedDate: selectedDate,
-                        onDatePicked: (pickedDate) {
-                          setState(() {
-                            selectedDate = pickedDate;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Data alterada para ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
-                                ),
-                              ),
-                            );
-                          });
-                        },
-                      ),
+                  ],
+                ),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Selecione a data inicial:',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Selecione o prazo:',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: selectedPrazo,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedPrazo = newValue!;
-                            intervals = parseIntervals(selectedPrazo);
-                            if (selectedPrazo.isEmpty || intervals.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Por favor, selecione um prazo válido!')),
-                              );
-                              return;
-                            }
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Prazo alterado para $selectedPrazo'),
-                              ),
-                            );
-                          });
-                        },
-                        items: prazos.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    'Datas dos boletos:',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Flexible(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
+                    const SizedBox(height: 8),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -162,54 +97,119 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                           ),
                         ],
                       ),
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: buildBoletosDates(selectedDate, intervals),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Segunda coluna
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Nova Lógica:',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DateSelector(
+                          selectedDate: selectedDate,
+                          onDatePicked: (pickedDate) {
+                            setState(() {
+                              selectedDate = pickedDate;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Data alterada para ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
+                                  ),
+                                ),
+                              );
+                            });
+                          },
                         ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Conteúdo da nova lógica',
-                        style: TextStyle(fontSize: 16),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Selecione o prazo:',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: selectedPrazo,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedPrazo = newValue!;
+                              intervals = parseIntervals(selectedPrazo);
+                              if (selectedPrazo.isEmpty || intervals.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Por favor, selecione um prazo válido!')),
+                                );
+                                return;
+                              }
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Prazo alterado para $selectedPrazo'),
+                                ),
+                              );
+                            });
+                          },
+                          items: prazos.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'Datas dos boletos:',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    const SizedBox(height: 8),
+                    Flexible(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: buildBoletosDates(selectedDate, intervals),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+            Container(
+              height: 50,
+              width: double.infinity,
+              color: Colors.white,
+              child: Center(
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
