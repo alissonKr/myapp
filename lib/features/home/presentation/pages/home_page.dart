@@ -44,128 +44,172 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
       appBar: AppBar(
         title: const Text('Calculadora de Prazos de Pagamento'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Selecione a data inicial:',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 8),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.2,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
+      body: Row(
+        children: [
+          // Primeira coluna
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Selecione a data inicial:',
+                    style: TextStyle(fontSize: 18),
                   ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DateSelector(
-                  selectedDate: selectedDate,
-                  onDatePicked: (pickedDate) {
-                    setState(() {
-                      selectedDate = pickedDate;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Data alterada para ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
-                          ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
                         ),
-                      );
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Selecione o prazo:',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 8),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.2,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: selectedPrazo,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedPrazo = newValue!;
-                      intervals = parseIntervals(selectedPrazo);
-                      if (selectedPrazo.isEmpty || intervals.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Por favor, selecione um prazo válido!')),
-                        );
-                        return;
-                      }
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Prazo alterado para $selectedPrazo'),
-                        ),
-                      );
-                    });
-                  },
-                  items: prazos.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-            const Text(
-              'Datas dos boletos:',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 8),
-            Flexible(
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
+                      ],
                     ),
-                  ],
-                ),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: buildBoletosDates(selectedDate, intervals),
-                ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DateSelector(
+                        selectedDate: selectedDate,
+                        onDatePicked: (pickedDate) {
+                          setState(() {
+                            selectedDate = pickedDate;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Data alterada para ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
+                                ),
+                              ),
+                            );
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Selecione o prazo:',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: selectedPrazo,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedPrazo = newValue!;
+                            intervals = parseIntervals(selectedPrazo);
+                            if (selectedPrazo.isEmpty || intervals.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Por favor, selecione um prazo válido!')),
+                              );
+                              return;
+                            }
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Prazo alterado para $selectedPrazo'),
+                              ),
+                            );
+                          });
+                        },
+                        items: prazos.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    'Datas dos boletos:',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 8),
+                  Flexible(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: buildBoletosDates(selectedDate, intervals),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          // Segunda coluna
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Nova Lógica:',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Conteúdo da nova lógica',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
