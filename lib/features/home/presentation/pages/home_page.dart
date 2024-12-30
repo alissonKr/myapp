@@ -54,20 +54,37 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 8),
-            DateSelector(
-              selectedDate: selectedDate,
-              onDatePicked: (pickedDate) {
-                setState(() {
-                  selectedDate = pickedDate;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Data alterada para ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
-                      ),
-                    ),
-                  );
-                });
-              },
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DateSelector(
+                  selectedDate: selectedDate,
+                  onDatePicked: (pickedDate) {
+                    setState(() {
+                      selectedDate = pickedDate;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Data alterada para ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
+                          ),
+                        ),
+                      );
+                    });
+                  },
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             const Text(
@@ -75,31 +92,49 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 8),
-            DropdownButton<String>(
-              value: selectedPrazo,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedPrazo = newValue!;
-                  intervals = parseIntervals(selectedPrazo);
-                  if (selectedPrazo.isEmpty || intervals.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Por favor, selecione um prazo válido!')),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value: selectedPrazo,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedPrazo = newValue!;
+                      intervals = parseIntervals(selectedPrazo);
+                      if (selectedPrazo.isEmpty || intervals.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Por favor, selecione um prazo válido!')),
+                        );
+                        return;
+                      }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Prazo alterado para $selectedPrazo'),
+                        ),
+                      );
+                    });
+                  },
+                  items: prazos.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
                     );
-                    return;
-                  }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Prazo alterado para $selectedPrazo'),
-                    ),
-                  );
-                });
-              },
-              items: prazos.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+                  }).toList(),
+                ),
+              ),
             ),
             const Text(
               'Datas dos boletos:',
@@ -107,8 +142,22 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
             ),
             const SizedBox(height: 8),
             Expanded(
-              child: ListView(
-                children: buildBoletosDates(selectedDate, intervals),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: ListView(
+                  children: buildBoletosDates(selectedDate, intervals),
+                ),
               ),
             ),
           ],
