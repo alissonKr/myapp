@@ -28,15 +28,34 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
     '21/28/35', '14/21/28', '10/20/30', '7/14/21', '14/28/42', '28/42/56', '30/40/50', '30/50/70',
     '17/37/57', '28/42/56/70', '20/40/60/80', '15/30/45/60', '30/60/90/120', '21/35/49/63', '20/35/50/65',
     '20/30/40/50', '30/40/50/60', '25/40/55/70', '30/45/60/75', '14/28/42/56', '25/35/45/55', '21/42/63/84',
-    '28/35/42/49', '7/14/21/28', '21/28/35/42', '28/56/84/112', '7/14/21/28', '10/20/30/40', '14/21/28/35',
-    '28/42/56/70', '15/25/35/45', '20/30/40/50/60', '30/45/60/75/90', '28/42/56/70/84', '25/35/45/55/65',
+    '28/35/42/49', '7/14/21/28', '21/28/35/42', '28/56/84/112', '10/20/30/40', '14/21/28/35',
+    '15/25/35/45', '20/30/40/50/60', '30/45/60/75/90', '28/42/56/70/84', '25/35/45/55/65',
     '15/30/45/60/75', '21/28/35/42/49', '20/40/60/80/100', '7/14/21/28/35', '20/35/50/65/80', '28/35/42/49/56',
     '14/28/42/56/70', '10/20/30/40/50', '30/40/50/60/70', '14/21/28/35/42', '25/40/55/70/85', '10/20/30/40/50/60',
     '15/25/35/45/55/65', '15/30/45/60/75/90', '25/35/45/55/65/75', '14/28/42/56/70/84', '21/28/35/42/49/56',
     '7/14/21/28/35/42', '28/35/42/49/56/63', '14/21/28/35/42/49', '20/40/60/80/100/120', '28/35/42/49/56/63/70',
     '7/14/21/28/35/42/49', '14/21/28/35/42/49/56', '15/30/45/60/75/90/15/120', '21/28/35/42/49/56/63/70',
-    '7/14/21/28/35/42/49/56', '14/21/28/35/42/49/56/63/70', '7/14/21/28/35/42/49/56/63/70', '14/21/28/35/42/'
+    '7/14/21/28/35/42/49/56', '14/21/28/35/42/49/56/63/70', '7/14/21/28/35/42/49/56/63/70',
   ];
+
+  List<Widget> buildBoletosDates(DateTime startDate, List<int> intervals) {
+    return intervals.map((interval) {
+      DateTime boletoDate = startDate.add(Duration(days: interval));
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0), // Adiciona espaço no topo do primeiro item
+            child: Text(
+              DateFormat('dd/MM/yyyy').format(boletoDate), // Formata a data corretamente
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const Divider(color: Colors.grey), // Adiciona linha sublinhada
+        ],
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +104,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                     ),
                     const SizedBox(height: 8),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.3,
+                      width: MediaQuery.of(context).size.width * 0.6,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -124,7 +143,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                     ),
                     const SizedBox(height: 8),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.3,
+                      width: MediaQuery.of(context).size.width * 0.6,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -162,7 +181,10 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                           items: prazos.map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Text(
+                                value,
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
                             );
                           }).toList(),
                         ),
@@ -175,7 +197,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                     const SizedBox(height: 8),
                     Flexible(
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.6,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -188,9 +210,12 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
                             ),
                           ],
                         ),
-                        child: ListView(
-                          shrinkWrap: true,
-                          children: buildBoletosDates(selectedDate, intervals),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0), // Adiciona espaçamento lateral
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: buildBoletosDates(selectedDate, intervals), // Garante exibição correta das datas
+                          ),
                         ),
                       ),
                     ),
