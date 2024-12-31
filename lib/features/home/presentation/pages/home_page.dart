@@ -56,9 +56,9 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
           children: [
             AppBar(
               title: Text(
-                'Texto com estilo de letra específico',
+                'Descubra qual dia vai cair seu boleto!',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 25,
                   fontFamily: 'Anton', // Nome da família de fonte
                   shadows: [
                     Shadow(
@@ -71,6 +71,7 @@ class _CalculadoraPrazosHomePageState extends State<CalculadoraPrazosHomePage> {
               ),
               backgroundColor: Colors.transparent,
               elevation: 0,
+              centerTitle: true,
             ),
             Expanded(
               child: Padding(
